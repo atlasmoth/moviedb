@@ -1,0 +1,11 @@
+.header {
+  --base-blue: 3, 37, 65;
+  color: #fff;
+  background-image: linear-gradient(
+    rgba(var(--base-blue), 0.3),
+    rgba(var(--base-blue), 0.3)
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
