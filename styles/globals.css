@@ -3,12 +3,19 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+:root {
+  height: 100%;
+  --base-blue: 3, 37, 65;
 }
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: "Lato", sans-serif;
+  user-select: none;
 }
 
 a {
@@ -23,10 +30,11 @@ select,
 textarea,
 button {
   font: inherit;
+  outline: none;
 }
 .boundary {
   width: 100%;
-  max-width: 1024px;
+  max-width: minmax(90vw, 1000px);
   margin: 0 auto;
   padding: 1rem;
 }

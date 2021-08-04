@@ -1,0 +1,14 @@
+.header {
+  color: #fff;
+  background-image: linear-gradient(
+      to top,
+      rgba(var(--base-blue), 0.3),
+      rgba(var(--base-blue), 0.3)
+    ),
+    url("https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,032541,01b4e4)/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+  min-height: 30vh;
+  padding-bottom: 1rem;
+}
