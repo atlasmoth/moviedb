@@ -28,6 +28,8 @@ export default function Nav() {
       <style jsx>{`
         .nav {
           background-color: rgb(var(--base-blue));
+          z-index: 100000;
+          position: relative;
         }
         .pane button {
           background-color: transparent;

@@ -1,5 +1,6 @@
 import Nav from "../nav";
 import styles from "./header.module.css";
+import Splash from "./splash";
 
 const FormSearch = () => {
   const handleSubmit = (e) => {
@@ -24,17 +25,17 @@ const FormSearch = () => {
         .search {
           display: grid;
           align-items: center;
-          margin: 1.5rem 0px;
+          margin: 2rem 0px;
           grid-template-columns: repeat(6, 1fr);
           justify-content: center;
         }
         .search span:first-of-type {
-          grid-column: 1 / span 6;
+          grid-column: 1 / span 7;
           grid-row-start: 1;
         }
         .search span:nth-of-type(2) {
           grid-row-start: 1;
-          grid-column: 6 / span 1;
+          grid-column: 7 / span 1;
           z-index: 2;
         }
         .search span:first-of-type input {
@@ -66,21 +67,25 @@ const FormSearch = () => {
 };
 export default function Header() {
   return (
-    <div className={styles.header}>
-      <Nav />
-      <div className="boundary">
-        <h1
-          style={{
-            fontSize: "3rem",
-            textShadow: "0px 0px 0px 1px rgba(0,0,0,.2)",
-          }}
-        >
-          Welcome.
-        </h1>
-        <h2>Millions of movies, TV shows and people to discover.</h2>
-        <h2>Explore now.</h2>
-        <FormSearch />
+    <>
+      <div className={styles.header}>
+        <Nav />
+        <Splash />
+        <div className="boundary">
+          <h1
+            style={{
+              fontSize: "3rem",
+              textShadow: "0px 0px 0px 1px rgba(0,0,0,.2)",
+              marginTop: "2rem",
+            }}
+          >
+            Welcome.
+          </h1>
+          <h2>Millions of movies, TV shows and people to discover.</h2>
+          <h2>Explore now.</h2>
+          <FormSearch />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
