@@ -1,4 +1,5 @@
 import Nav from "../nav";
+import Search from "../search";
 import styles from "./header.module.css";
 import Splash from "./splash";
 
@@ -70,6 +71,7 @@ export default function Header() {
     <>
       <div className={styles.header}>
         <Nav />
+        <Search />
         <Splash />
         <div className="boundary">
           <h1

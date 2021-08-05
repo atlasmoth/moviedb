@@ -12,7 +12,11 @@ export default function Nav() {
         }}
       >
         <div>
-          <button>
+          <button
+            onClick={(e) => {
+              document.querySelector(".splash").classList.toggle("fade");
+            }}
+          >
             <i className="fas fa-bars"></i>
           </button>
         </div>
