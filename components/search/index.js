@@ -1,8 +1,30 @@
-import { useEffect } from "react";
-import { debounce } from "debounce";
+import { useEffect, useState } from "react";
 
 export default function Search() {
-  useEffect(() => {}, []);
+  const [items, setItems] = useState([]);
+  const [query, setQuery] = useState("");
+  useEffect(() => {
+    if (query.trim().length > 0) {
+      const asyncFetcher = async () => {
+        try {
+          const { results } = await (
+            await fetch(
+              `https://api.themoviedb.org/3/search/multi?api_key=${
+                process.env.NEXT_PUBLIC_API_KEY
+              }&query=${encodeURI(query)}&page=1&include_adult=true`
+            )
+          ).json();
+          setItems(results);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      asyncFetcher();
+    }
+  }, [query]);
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
   return (
     <div className="search">
       <form>
@@ -16,6 +38,8 @@ export default function Search() {
               name="trending"
               id="trending"
               placeholder="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
           </span>
         </div>
