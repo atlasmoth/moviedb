@@ -13,6 +13,7 @@ export default function Splash() {
           background-color: rgba(var(--base-blue), 0.96);
           padding: 0px 2rem;
           transition: 1s ease;
+          z-index: 100;
         }
         .fade {
           transform: translateX(0px);

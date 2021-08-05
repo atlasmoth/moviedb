@@ -4,6 +4,8 @@ export default function Search() {
   const [items, setItems] = useState([]);
   const [query, setQuery] = useState("");
   useEffect(() => {
+    if (query.trim().length === 0) setItems([]);
+
     if (query.trim().length > 0) {
       const asyncFetcher = async () => {
         try {
@@ -22,12 +24,10 @@ export default function Search() {
       asyncFetcher();
     }
   }, [query]);
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
+
   return (
     <div className="search">
-      <form>
+      <form autoComplete="off">
         <div className="icon-search">
           <span>
             <i className="fas fa-search"></i>
@@ -52,6 +52,14 @@ export default function Search() {
               <i className="fas fa-chart-line"></i> Trending
             </p>
           </li>
+          {items.map((i) => (
+            <li key={i.id}>
+              <p>
+                <i className="fas fa-search"></i>&nbsp; &nbsp; &nbsp;
+                {i.title || i.name} {i.media_type && `in ${i.media_type}`}
+              </p>
+            </li>
+          ))}
         </ul>
       </div>
       <style jsx>{`
@@ -59,7 +67,7 @@ export default function Search() {
           position: -webkit-sticky;
           position: sticky;
           top: 0;
-
+          z-index: 90;
           background: #fff;
           color: rgb(var(--base-blue));
         }
@@ -95,11 +103,10 @@ export default function Search() {
           border-collapse: collapse;
         }
         .trends li p {
-          line-height: 30px;
           padding: 5px 1rem;
           color: inherit;
         }
-        .trends li p:first-of-type {
+        .trends li:first-of-type p {
           font-weight: bold;
           font-size: 1.3rem;
         }
