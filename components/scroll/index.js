@@ -4,7 +4,11 @@ export default function Scroll({ items, title, updateKey, currKey }) {
       <h2>{title}</h2>
       <div className="scrollArea">
         {items.map((i) => (
-          <span key={i} className={currKey === i && "active"}>
+          <span
+            key={i}
+            className={currKey === i && "active"}
+            onClick={() => updateKey(i)}
+          >
             {i}
           </span>
         ))}
@@ -14,7 +18,6 @@ export default function Scroll({ items, title, updateKey, currKey }) {
           display: flex;
           margin: 1rem 0px;
           align-items: center;
-          overflow-x: scroll;
           padding-bottom: 1rem;
         }
         .scrollArea {
