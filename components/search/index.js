@@ -13,7 +13,7 @@ export default function Search() {
             await fetch(
               `https://api.themoviedb.org/3/search/multi?api_key=${
                 process.env.NEXT_PUBLIC_API_KEY
-              }&query=${encodeURI(query)}&page=1&include_adult=true`
+              }&query=${encodeURI(query)}&page=1`
             )
           ).json();
           setItems(results);
