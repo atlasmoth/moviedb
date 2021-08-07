@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import Scroll from ".";
 
 export default function Trending() {
-  const [keys, setKeys] = useState(["day", "week"]);
+  const [keys] = useState(["day", "week"]);
   const [currKey, setCurrKey] = useState(keys[0]);
   const [media, setMedia] = useState([]);
   useEffect(() => {
-    fetch(`
-https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
-      process.env.NEXT_PUBLIC_API_KEY
-    }`)
+    fetch(
+      `https://api.themoviedb.org/3/trending/all/${encodeURI(
+        currKey
+      )}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`
+    )
       .then((res) => res.json())
       .then(({ results }) => {
         setMedia(results);
