@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Scroll from ".";
 
-export default function Trending() {
-  const [keys, setKeys] = useState(["day", "week"]);
+export default function Latest() {
+  const [keys] = useState(["tv", "movie"]);
   const [currKey, setCurrKey] = useState(keys[0]);
   const [media, setMedia] = useState([]);
   useEffect(() => {
     fetch(`
-https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
+
+
+https://api.themoviedb.org/3/${encodeURI(currKey)}/latest?api_key=${
       process.env.NEXT_PUBLIC_API_KEY
     }`)
       .then((res) => res.json())
@@ -21,7 +23,7 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
     <>
       <div className="boundary">
         <Scroll
-          title={"Trending"}
+          title={"Latest"}
           updateKey={(idx) => setCurrKey(idx)}
           items={keys}
           currKey={currKey}
@@ -31,19 +33,20 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
             <div className="card" key={m.id}>
               <div className="poster">
                 <img
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${m.backdrop_path}`}
+                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${
+                    m.backdrop_path || m.poster_path
+                  }`}
                   alt="poster"
                 />
                 <div className="average">
                   <p>{m.vote_average}</p>
-                  <Canvas average={Number(m.vote_average || 0)} />
                 </div>
               </div>
               <div style={{ fontWeight: "bold", marginTop: "1.5rem" }}>
                 <p>{m.title || m.name}</p>
               </div>
               <div>
-                <p>{m.release_date}</p>
+                <p>{m.first_air_date}</p>
               </div>
             </div>
           ))}
@@ -57,9 +60,6 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
             grid-template-columns: repeat(${media.length}, 100px);
             grid-gap: 1rem;
             grid-auto-rows: auto;
-            background-image: url("https://www.themoviedb.org/assets/2/v4/misc/trending-bg-39afc2a5f77e31d469b25c187814c0a2efef225494c038098d62317d923f8415.svg");
-            background-repeat: repeat-x;
-            background-position: center;
           }
 
           .scrollDivs::-webkit-scrollbar {
@@ -110,45 +110,6 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
           }
         `}</style>
       </div>
-    </>
-  );
-}
-
-function Canvas({ average }) {
-  const canvasRef = useRef();
-  function hsl_col_perc(percent) {
-    var a = percent / 100,
-      b = (120 - 0) * a,
-      c = b + 0;
-
-    return "hsl(" + c + ", 100%, 50%)";
-  }
-  useEffect(() => {
-    const can = canvasRef.current;
-    const ctx = can.getContext("2d");
-    ctx.beginPath();
-    ctx.lineCap = "round";
-    ctx.strokeStyle = hsl_col_perc(average * 10);
-    ctx.arc(20, 20, 15, 0, 2 * Math.PI * (average / 10));
-    ctx.stroke();
-  }, [canvasRef]);
-
-  return (
-    <>
-      <canvas
-        ref={canvasRef}
-        className="canvas"
-        height="40px"
-        width="40px"
-      ></canvas>
-      <style jsx>
-        {`
-          .canvas {
-            grid-area: inner;
-            z-index: 1;
-          }
-        `}
-      </style>
     </>
   );
 }

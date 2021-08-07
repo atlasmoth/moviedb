@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import Scroll from ".";
 
-export default function Trending() {
-  const [keys, setKeys] = useState(["day", "week"]);
+export default function Popular() {
+  const [keys] = useState(["tv", "movie"]);
   const [currKey, setCurrKey] = useState(keys[0]);
   const [media, setMedia] = useState([]);
   useEffect(() => {
     fetch(`
-https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
+
+https://api.themoviedb.org/3/${encodeURI(currKey)}/popular?api_key=${
       process.env.NEXT_PUBLIC_API_KEY
     }`)
       .then((res) => res.json())
@@ -21,7 +22,7 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
     <>
       <div className="boundary">
         <Scroll
-          title={"Trending"}
+          title={"What's popular?"}
           updateKey={(idx) => setCurrKey(idx)}
           items={keys}
           currKey={currKey}
@@ -31,7 +32,9 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
             <div className="card" key={m.id}>
               <div className="poster">
                 <img
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${m.backdrop_path}`}
+                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${
+                    m.backdrop_path || m.poster_path
+                  }`}
                   alt="poster"
                 />
                 <div className="average">
@@ -43,7 +46,7 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
                 <p>{m.title || m.name}</p>
               </div>
               <div>
-                <p>{m.release_date}</p>
+                <p>{m.first_air_date}</p>
               </div>
             </div>
           ))}
@@ -57,9 +60,6 @@ https://api.themoviedb.org/3/trending/all/${encodeURI(currKey)}?api_key=${
             grid-template-columns: repeat(${media.length}, 100px);
             grid-gap: 1rem;
             grid-auto-rows: auto;
-            background-image: url("https://www.themoviedb.org/assets/2/v4/misc/trending-bg-39afc2a5f77e31d469b25c187814c0a2efef225494c038098d62317d923f8415.svg");
-            background-repeat: repeat-x;
-            background-position: center;
           }
 
           .scrollDivs::-webkit-scrollbar {

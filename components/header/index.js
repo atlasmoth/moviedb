@@ -1,4 +1,5 @@
 import Nav from "../nav";
+import Popular from "../scroll/popular";
 import Trending from "../scroll/trending";
 import Search from "../search";
 import styles from "./header.module.css";
@@ -89,6 +90,7 @@ export default function Header() {
           <FormSearch />
         </div>
       </div>
+      <Popular />
       <Trending />
     </>
   );
