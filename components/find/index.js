@@ -60,8 +60,6 @@ export default function Find() {
                 color: "#fff",
                 padding: "1rem 3rem",
                 backgroundColor: "rgb(1,180,220)",
-                borderTopLeftRadius: "10px",
-                borderTopRightRadius: "10px",
               }}
             >
               Search Results
@@ -76,7 +74,10 @@ export default function Find() {
           </div>
           <div className="main">
             {items.map((i) => (
-              <div className="item" key={i.id}>
+              <div
+                className="item"
+                key={Number(i.id) * Math.random() * Math.random()}
+              >
                 <div className="img">
                   {" "}
                   <img
@@ -92,7 +93,7 @@ export default function Find() {
                 <div className="message">
                   <h4>{i.title || i.name}</h4>
                   <p>
-                    <small>{i.overview}</small>
+                    <small>{i?.overview?.substr(0, 100) + "..."}</small>
                   </p>
                 </div>
               </div>
@@ -110,15 +111,6 @@ export default function Find() {
           grid-template-columns: 2fr 7fr;
         }
 
-        .aside h2 + div {
-          border: 1px solid #eee;
-          border-bottom-left-radius: 10px;
-          border-bottom-right-radius: 10px;
-        }
-        .main {
-          margin-left: 2rem;
-          flex-basis: 4fr;
-        }
         .tag {
           padding: 1rem;
           display: flex;
@@ -134,7 +126,7 @@ export default function Find() {
           display: flex;
           align-items: center;
           border-radius: 10px;
-          box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.2);
           margin-bottom: 2rem;
           overflow: hidden;
           height: 150px;
@@ -150,6 +142,40 @@ export default function Find() {
         .message {
           padding: 1rem;
           flex-grow: 1;
+        }
+        @media only screen and (min-width: 701px) {
+          .main {
+            margin-left: 2rem;
+            flex-basis: 4fr;
+          }
+          .aside h2 + div {
+            border: 1px solid #eee;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+          }
+          h2 {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+          }
+        }
+        @media only screen and (max-width: 700px) {
+          .sections {
+            grid-template-columns: 1fr;
+          }
+          .aside h2 + div {
+            margin-bottom: 1rem;
+          }
+          .tags {
+            display: flex;
+            flex-wrap: no-wrap;
+            overflow-x: scroll;
+          }
+          .tag {
+            flex-grow: 1;
+          }
+          .tag span {
+            text-align: center;
+          }
         }
       `}</style>
     </div>
