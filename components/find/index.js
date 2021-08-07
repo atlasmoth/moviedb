@@ -4,16 +4,16 @@ import Splash from "../header/splash";
 import { useRef, useState, useEffect } from "react";
 
 export default function Find() {
-  const [keys] = useState(["movies", "collection", "people", "tv"]);
+  const [keys] = useState(["movie", "collection", "person", "tv"]);
   const [currKey, setCurrKey] = useState(keys[0]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("jen");
   const [items, setItems] = useState([]);
   const [pageNum, setPageNum] = useState(1);
 
   const sentinelRef = useRef();
   useEffect(() => {
     setPageNum(1);
-
+    setItems([]);
     const options = {
       root: null,
       rootMargin: "0px",
@@ -28,15 +28,25 @@ export default function Find() {
     observer.observe(sentinelRef.current);
     const currObjt = sentinelRef.current;
     return () => observer.unobserve(currObjt);
-  }, [query]);
+  }, [query, currKey]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     `https://api.themoviedb.org/3/search/${encodeURI(currKey)}?api_key=${
-  //       process.env.NEXT_PUBLIC_API_KEY
-  //     }&page=${encodeURI(pageNum)}`
-  //   );
-  // }, [pageNum]);
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/search/${encodeURI(currKey)}?api_key=${
+        process.env.NEXT_PUBLIC_API_KEY
+      }&page=${encodeURI(pageNum)}&query=${query}`
+    )
+      .then(async (res) => {
+        if (res.ok && res.status === 200) return res.json();
+        throw await res.json();
+      })
+      .then((data) => {
+        if (data.results) {
+          setItems((r) => [...r, ...data.results]);
+        }
+      })
+      .catch(console.log);
+  }, [pageNum]);
   return (
     <div className="find">
       <Nav />
@@ -64,17 +74,42 @@ export default function Find() {
               ))}
             </div>
           </div>
-          <div className="main"></div>
+          <div className="main">
+            {items.map((i) => (
+              <div className="item" key={i.id}>
+                <div className="img">
+                  {" "}
+                  <img
+                    src={
+                      i.poster_path
+                        ? `https://www.themoviedb.org/t/p/w260_and_h390_bestv2/` +
+                          i.poster_path
+                        : `https://via.placeholder.com/150/eee/000?Text=MovieDB`
+                    }
+                    alt="poster"
+                  />
+                </div>
+                <div className="message">
+                  <h4>{i.title || i.name}</h4>
+                  <p>
+                    <small>{i.overview}</small>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       <div ref={sentinelRef} style={{ height: "100px" }}></div>
       <style jsx>{`
         .sections {
-          display: flex;
+          display: grid;
           max-width: 1200px;
           margin: 2rem auto;
+          grid-template-columns: 2fr 7fr;
         }
+
         .aside h2 + div {
           border: 1px solid #eee;
           border-bottom-left-radius: 10px;
@@ -82,6 +117,7 @@ export default function Find() {
         }
         .main {
           margin-left: 2rem;
+          flex-basis: 4fr;
         }
         .tag {
           padding: 1rem;
@@ -93,6 +129,27 @@ export default function Find() {
         .tag:hover {
           background-color: #eee;
           cursor: pointer;
+        }
+        .item {
+          display: flex;
+          align-items: center;
+          border-radius: 10px;
+          box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.2);
+          margin-bottom: 2rem;
+          overflow: hidden;
+          height: 150px;
+        }
+        .item .img {
+          flex-basis: 100px;
+          flex-shrink: 0;
+        }
+        img {
+          height: 160px;
+          object-fit: cover;
+        }
+        .message {
+          padding: 1rem;
+          flex-grow: 1;
         }
       `}</style>
     </div>
