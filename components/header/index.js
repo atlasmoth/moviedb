@@ -1,4 +1,5 @@
 import Nav from "../nav";
+import Latest from "../scroll/latest";
 import Popular from "../scroll/popular";
 import Trending from "../scroll/trending";
 import Search from "../search";
@@ -73,6 +74,7 @@ export default function Header() {
     <>
       <div className={styles.header}>
         <Nav />
+
         <Search />
         <Splash />
         <div className="boundary">
@@ -91,6 +93,7 @@ export default function Header() {
         </div>
       </div>
       <Popular />
+      <Latest />
       <Trending />
     </>
   );
