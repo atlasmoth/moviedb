@@ -124,17 +124,18 @@ export default function Latest() {
           position: relative;
           cursor: pointer;
           transition: 0.3s ease;
-          min-height: 70%;
+          height: 70%;
+          max-height: 80%;
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center;
           border-radius: 10px;
-
           display: flex;
         }
         .play {
-          font-size: 1.5rem;
+          font-size: 3rem;
           color: #fff;
+          margin: auto;
         }
         .poster:hover {
           transform: scale(1.1);

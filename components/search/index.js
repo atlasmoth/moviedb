@@ -26,7 +26,7 @@ export default function Search() {
   }, [query]);
 
   return (
-    <div className="search">
+    <div className="search" id="search">
       <form autoComplete="off">
         <div className="icon-search">
           <span>
@@ -70,6 +70,8 @@ export default function Search() {
           z-index: 90;
           background: #fff;
           color: rgb(var(--base-blue));
+          display: none;
+          transition: 0.3s ease;
         }
         .icon-search {
           display: flex;

@@ -24,7 +24,17 @@ export default function Nav() {
           <button>logo</button>
         </div>
         <div>
-          <button>
+          <button
+            onClick={(e) => {
+              const x = document.getElementById("search");
+
+              if (x.style.display === "none") {
+                x.style.display = "block";
+              } else {
+                x.style.display = "none";
+              }
+            }}
+          >
             <i className="fas fa-search"></i>
           </button>
         </div>
