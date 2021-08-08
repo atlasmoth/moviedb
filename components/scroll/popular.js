@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Scroll from ".";
+import Link from "next/link";
 
 export default function Popular() {
   const [keys] = useState(["tv", "movie"]);
@@ -30,24 +31,28 @@ https://api.themoviedb.org/3/${encodeURI(currKey)}/popular?api_key=${
         <div className="scrollDivs">
           {media.map((m) => (
             <div className="card" key={m.id}>
-              <div className="poster">
-                <img
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${
-                    m.backdrop_path || m.poster_path
-                  }`}
-                  alt="poster"
-                />
-                <div className="average">
-                  <p>{m.vote_average}</p>
-                  <Canvas average={Number(m.vote_average || 0)} />
-                </div>
-              </div>
-              <div style={{ fontWeight: "bold", marginTop: "1.5rem" }}>
-                <p>{m.title || m.name}</p>
-              </div>
-              <div>
-                <p>{m.first_air_date}</p>
-              </div>
+              <Link href={`/media/${currKey}?id=${m.id}`}>
+                <a>
+                  <div className="poster">
+                    <img
+                      src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${
+                        m.backdrop_path || m.poster_path
+                      }`}
+                      alt="poster"
+                    />
+                    <div className="average">
+                      <p>{m.vote_average}</p>
+                      <Canvas average={Number(m.vote_average || 0)} />
+                    </div>
+                  </div>
+                  <div style={{ fontWeight: "bold", marginTop: "1.5rem" }}>
+                    <p>{m.title || m.name}</p>
+                  </div>
+                  <div>
+                    <p>{m.first_air_date}</p>
+                  </div>
+                </a>
+              </Link>
             </div>
           ))}
         </div>

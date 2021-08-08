@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Search() {
   const [items, setItems] = useState([]);
   const [query, setQuery] = useState("");
+  const router = useRouter();
   useEffect(() => {
     if (query.trim().length === 0) setItems([]);
 
@@ -24,10 +27,17 @@ export default function Search() {
       asyncFetcher();
     }
   }, [query]);
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { trending } = Object.fromEntries(new FormData(e.target));
+    router.push({
+      pathname: "/search",
+      query: { query: trending },
+    });
+  };
   return (
     <div className="search" id="search">
-      <form autoComplete="off">
+      <form autoComplete="off" onSubmit={handleSubmit}>
         <div className="icon-search">
           <span>
             <i className="fas fa-search"></i>
@@ -54,10 +64,16 @@ export default function Search() {
           </li>
           {items.map((i) => (
             <li key={i.id}>
-              <p>
-                <i className="fas fa-search"></i>&nbsp; &nbsp; &nbsp;
-                {i.title || i.name} {i.media_type && `in ${i.media_type}`}
-              </p>
+              <Link
+                href={`/search?query=${encodeURIComponent(i.title || i.name)}`}
+              >
+                <a>
+                  <p>
+                    <i className="fas fa-search"></i>&nbsp; &nbsp; &nbsp;
+                    {i.title || i.name} {i.media_type && `in ${i.media_type}`}
+                  </p>
+                </a>
+              </Link>
             </li>
           ))}
         </ul>

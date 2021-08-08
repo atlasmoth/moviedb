@@ -2,6 +2,7 @@ import Nav from "./../nav";
 import Search from "../search";
 import Splash from "../header/splash";
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Find() {
   const [keys] = useState(["movie", "collection", "person", "tv"]);
@@ -11,7 +12,8 @@ export default function Find() {
   const [pageNum, setPageNum] = useState(1);
   useEffect(() => {
     var urlParams = new URLSearchParams(window.location.search);
-    setQuery(urlParams.get("query"));
+
+    setQuery(decodeURI(urlParams.get("query")));
   }, []);
   const sentinelRef = useRef();
   useEffect(() => {
@@ -79,29 +81,36 @@ export default function Find() {
           </div>
           <div className="main">
             {items.map((i) => (
-              <div
-                className="item"
+              <Link
+                href={`/media/${currKey}?id=${i.id}`}
                 key={Number(i.id) * Math.random() * Math.random()}
               >
-                <div className="img">
-                  {" "}
-                  <img
-                    src={
-                      i.poster_path
-                        ? `https://www.themoviedb.org/t/p/w260_and_h390_bestv2/` +
+                <a>
+                  <div
+                    className="item"
+                    key={Number(i.id) * Math.random() * Math.random()}
+                  >
+                    <div className="img">
+                      {" "}
+                      <img
+                        src={
                           i.poster_path
-                        : `https://via.placeholder.com/150/eee/000?Text=MovieDB`
-                    }
-                    alt="poster"
-                  />
-                </div>
-                <div className="message">
-                  <h4>{i.title || i.name}</h4>
-                  <p>
-                    <small>{i?.overview?.substr(0, 100) + "..."}</small>
-                  </p>
-                </div>
-              </div>
+                            ? `https://www.themoviedb.org/t/p/w260_and_h390_bestv2/` +
+                              i.poster_path
+                            : `https://via.placeholder.com/150/eee/000?Text=MovieDB`
+                        }
+                        alt="poster"
+                      />
+                    </div>
+                    <div className="message">
+                      <h4>{i.title || i.name}</h4>
+                      <p>
+                        <small>{i?.overview?.substr(0, 100) + "..."}</small>
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </Link>
             ))}
           </div>
         </div>
