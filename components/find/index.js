@@ -6,10 +6,13 @@ import { useRef, useState, useEffect } from "react";
 export default function Find() {
   const [keys] = useState(["movie", "collection", "person", "tv"]);
   const [currKey, setCurrKey] = useState(keys[0]);
-  const [query, setQuery] = useState("jen");
+  const [query, setQuery] = useState("");
   const [items, setItems] = useState([]);
   const [pageNum, setPageNum] = useState(1);
-
+  useEffect(() => {
+    var urlParams = new URLSearchParams(window.location.search);
+    setQuery(urlParams.get("query"));
+  }, []);
   const sentinelRef = useRef();
   useEffect(() => {
     setPageNum(1);
@@ -31,21 +34,23 @@ export default function Find() {
   }, [query, currKey]);
 
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/search/${encodeURI(currKey)}?api_key=${
-        process.env.NEXT_PUBLIC_API_KEY
-      }&page=${encodeURI(pageNum)}&query=${query}`
-    )
-      .then(async (res) => {
-        if (res.ok && res.status === 200) return res.json();
-        throw await res.json();
-      })
-      .then((data) => {
-        if (data.results) {
-          setItems((r) => [...r, ...data.results]);
-        }
-      })
-      .catch(console.log);
+    if (query.trim().length > 0) {
+      fetch(
+        `https://api.themoviedb.org/3/search/${encodeURI(currKey)}?api_key=${
+          process.env.NEXT_PUBLIC_API_KEY
+        }&page=${encodeURI(pageNum)}&query=${query}`
+      )
+        .then(async (res) => {
+          if (res.ok && res.status === 200) return res.json();
+          throw await res.json();
+        })
+        .then((data) => {
+          if (data.results) {
+            setItems((r) => [...r, ...data.results]);
+          }
+        })
+        .catch(console.log);
+    }
   }, [pageNum]);
   return (
     <div className="find">

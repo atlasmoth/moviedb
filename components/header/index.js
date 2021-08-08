@@ -5,10 +5,17 @@ import Trending from "../scroll/trending";
 import Search from "../search";
 import styles from "./header.module.css";
 import Splash from "./splash";
+import { useRouter } from "next/router";
 
 const FormSearch = () => {
+  const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { search } = Object.fromEntries(new FormData(e.target));
+    router.push({
+      pathname: "/search",
+      query: { query: search },
+    });
   };
   return (
     <form onSubmit={handleSubmit} autoComplete="off">

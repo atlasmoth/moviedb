@@ -1,4 +1,4 @@
-import Find from "../../components/find";
+import Find from "./../components/find";
 
 export default function Category() {
   return (
