@@ -25,13 +25,13 @@ export default function Movie(props) {
                 <span>
                   {props.data.genres.reduce((a, b) => (a += `${b.name} ,`), "")}
                 </span>
-                <span>{props.data.runtime}</span>
+                <span>{(Number(props.data.runtime) / 60).toFixed(1)}h</span>
               </div>
               <div className="average">
                 <p>{props.data.vote_average}</p>
                 <Canvas average={Number(props.data.vote_average || 0)} />
               </div>
-              <p>
+              <p className="tagline">
                 <em>{props.data.tagline}</em>
               </p>
               <h2>Overview</h2>
@@ -41,33 +41,41 @@ export default function Movie(props) {
         </div>
       </div>
       <style jsx>{`
-        .tags span {
-          padding-right: 0.5rem;
-          margin-right: 0.5rem;
+        .tags {
+          display: flex;
+          align-items: center;
         }
-        .tags span::after {
-          display : block;
-          width : 5px;
-          height : 5px;
-          border-radius : 50%:
-          background-color : #fff;
-          margin-left : 100%;
-          content : "cme";
+        .tags span {
+          margin-right: 1rem;
+        }
+        .tags span:first-of-type ~ span {
+          position: relative;
+          padding-left: 0.5rem;
+          margin-left: 0.5rem;
+        }
+        .tags span:first-of-type ~ span::before {
+          color: #fff;
+          content: ".";
+          font-size: 3rem;
+          position: absolute;
+          bottom: -5px;
+          left: -10px;
         }
         .title {
           font-size: 2rem;
         }
         .banner {
-          min-height: 60vh;
+          min-height: 50vh;
           background-image: linear-gradient(
               to top,
               rgba(var(--base-blue), 0.8) 0%,
               rgba(var(--base-blue), 0.8) 30%
             ),
-            url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${props.data.backdrop_path}");
+            url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${props
+              .data.backdrop_path}");
           background-size: cover;
           background-repeat: no-repeat;
-          background-position: top left;
+          background-position: top center;
         }
         .info {
           display: flex;
@@ -90,7 +98,10 @@ export default function Movie(props) {
           width: 20vw;
           border-radius: 10px;
         }
-
+        .tagline {
+          margin: 0.5rem 0px;
+          color: #ddd;
+        }
         .average {
           height: 60px;
           width: 60px;
@@ -115,6 +126,14 @@ export default function Movie(props) {
         .average:hover {
           transform: scale(1.2);
         }
+        @media only screen and (max-width: 768px) {
+          .info {
+            flex-wrap: wrap;
+          }
+          .title {
+            font-size: 1rem;
+          }
+        }
       `}</style>
     </div>
   );
@@ -134,7 +153,7 @@ function Canvas({ average }) {
     const ctx = can.getContext("2d");
     ctx.beginPath();
     ctx.lineCap = "round";
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.strokeStyle = hsl_col_perc(average * 10);
     ctx.arc(30, 30, 25, 0, 2 * Math.PI * (average / 10));
     ctx.stroke();
