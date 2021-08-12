@@ -25,8 +25,9 @@ export async function getServerSideProps(ctx) {
         `https://api.themoviedb.org/3/${category[0]}/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`
       )
     ).json();
+
     return {
-      props: { data, category, id },
+      props: { data, category: category[0], id },
     };
   } catch (error) {
     console.log(error);
