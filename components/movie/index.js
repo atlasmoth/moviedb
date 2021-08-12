@@ -94,7 +94,7 @@ export default function Movie(props) {
       </div>
       <div className="boundary">
         <h2>Recommendations</h2>
-        <Latest movies={recommendations} />
+        {recommendations.length > 0 && <Latest movies={recommendations} />}
       </div>
       <style jsx>{`
         .tags {
@@ -230,7 +230,11 @@ export default function Movie(props) {
   );
 }
 function Latest({ movies }) {
-  const [background, setBackground] = useState();
+  const [background, setBackground] = useState(
+    `https://www.themoviedb.org/t/p/w1920_and_h427_multi_faces//${
+      movies[0].backdrop_path || movies[0].poster_path
+    }`
+  );
 
   return (
     <div className="house">
