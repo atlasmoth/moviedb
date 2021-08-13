@@ -12,7 +12,7 @@ export default function Movie(props) {
       .then(({ cast }) => {
         cast = cast.filter(
           (c) =>
-            c.profile_path && c.profile_path.trim() > "" && c.popularity > 3
+            c.profile_path && c.profile_path.trim() > "" && c.popularity > 1
         );
         cast.sort((a, b) => b.popularity - a.popularity);
 
@@ -51,12 +51,16 @@ export default function Movie(props) {
               </h2>
               <div className="tags">
                 <span>
-                  {new Date(props.data.release_date).toLocaleDateString()}
+                  {new Date(props.data.first_air_date).toLocaleDateString()}
                 </span>
                 <span>
-                  {props.data.genres.reduce((a, b) => (a += `${b.name} ,`), "")}
+                  {props.data.genres.reduce((a, b) => (a += `${b.name}, `), "")}
                 </span>
-                <span>{(Number(props.data.runtime) / 60).toFixed(1)}h</span>
+                <span>
+                  {props.data.episode_run_time.reduce((a, b) => (a += b)) /
+                    props.data.episode_run_time.length}
+                  Mins
+                </span>
               </div>
               <div className="average">
                 <p>{props.data.vote_average}</p>
@@ -100,40 +104,33 @@ export default function Movie(props) {
         <h2>Seasons</h2>
         <div className="main">
           {props.data.seasons.map((i) => (
-            <Link
-              href={`/media/tv?id=${i.id}`}
+            <div
+              className="item"
               key={Number(i.id) * Math.random() * Math.random()}
             >
-              <a>
-                <div
-                  className="item"
-                  key={Number(i.id) * Math.random() * Math.random()}
-                >
-                  <div className="img">
-                    {" "}
-                    <img
-                      src={
+              <div className="img">
+                {" "}
+                <img
+                  src={
+                    i.poster_path
+                      ? `https://www.themoviedb.org/t/p/w260_and_h390_bestv2/` +
                         i.poster_path
-                          ? `https://www.themoviedb.org/t/p/w260_and_h390_bestv2/` +
-                            i.poster_path
-                          : `https://via.placeholder.com/150/eee/000?Text=MovieDB`
-                      }
-                      alt="poster"
-                    />
-                  </div>
-                  <div className="message">
-                    <h4>{i.title || i.name}</h4>
-                    <h5>
-                      {new Date(i.air_date).getFullYear()} | {i.episode_count}{" "}
-                      Episodes
-                    </h5>
-                    <p>
-                      <small>{i?.overview?.substr(0, 150) + "..."}</small>
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </Link>
+                      : `https://via.placeholder.com/150/eee/000?Text=MovieDB`
+                  }
+                  alt="poster"
+                />
+              </div>
+              <div className="message">
+                <h4>{i.title || i.name}</h4>
+                <h5>
+                  {new Date(i.air_date).getFullYear()} | {i.episode_count}{" "}
+                  Episodes
+                </h5>
+                <p>
+                  <small>{i?.overview?.substr(0, 150) + "..."}</small>
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -162,7 +159,7 @@ export default function Movie(props) {
           font-size: 2rem;
         }
         .banner {
-          min-height: 50vh;
+          min-height: 60vh;
           background-image: linear-gradient(
               to top,
               rgba(var(--base-blue), 0.8) 0%,

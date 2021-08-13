@@ -3,6 +3,7 @@ import Search from "./../../components/search";
 import Splash from "./../../components/header/splash";
 import Movie from "../../components/movie";
 import Tv from "./../../components/tv";
+import Person from "./../../components/person";
 
 export default function Category(props) {
   return (
@@ -12,6 +13,7 @@ export default function Category(props) {
       <Splash />
       {props.category === "movie" && <Movie {...props} />}
       {props.category === "tv" && <Tv {...props} />}
+      {props.category === "person" && <Person {...props} />}
     </div>
   );
 }

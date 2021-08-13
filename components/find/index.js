@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Find() {
-  const [keys] = useState(["movie", "collection", "person", "tv"]);
+  const [keys] = useState(["movie", "person", "tv"]);
   const [currKey, setCurrKey] = useState(keys[0]);
   const [query, setQuery] = useState("");
   const [items, setItems] = useState([]);
