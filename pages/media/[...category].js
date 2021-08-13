@@ -2,6 +2,7 @@ import Nav from "./../../components/nav";
 import Search from "./../../components/search";
 import Splash from "./../../components/header/splash";
 import Movie from "../../components/movie";
+import Tv from "./../../components/tv";
 
 export default function Category(props) {
   return (
@@ -10,6 +11,7 @@ export default function Category(props) {
       <Search />
       <Splash />
       {props.category === "movie" && <Movie {...props} />}
+      {props.category === "tv" && <Tv {...props} />}
     </div>
   );
 }
