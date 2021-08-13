@@ -30,10 +30,8 @@ export default function Search() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { trending } = Object.fromEntries(new FormData(e.target));
-    router.push({
-      pathname: "/search",
-      query: { query: trending },
-    });
+
+    location.href = `/search?query=${trending}`;
   };
   return (
     <div className="search" id="search">
