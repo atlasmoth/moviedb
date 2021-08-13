@@ -31,7 +31,7 @@ export default function Trending() {
         <div className="scrollDivs">
           {media.map((m) => (
             <div className="card" key={m.id}>
-              <Link href={`/media/${currKey}?id=${m.id}`}>
+              <Link href={`/media/${m.media_type}?id=${m.id}`}>
                 <a>
                   <div className="poster">
                     <img

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Nav() {
   return (
     <div className="nav">
@@ -21,7 +23,13 @@ export default function Nav() {
           </button>
         </div>
         <div>
-          <button>logo</button>
+          <button>
+            <Link href="/">
+              <a>
+                <i className="fas fa-video"></i>
+              </a>
+            </Link>
+          </button>
         </div>
         <div>
           <button

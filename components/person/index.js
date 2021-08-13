@@ -40,7 +40,7 @@ export default function Movie(props) {
             <div className="details">
               <h2 className="title">{props.data.name}</h2>
 
-              <h2>biography</h2>
+              <h2>Biography</h2>
               <div className="overview">{props.data.biography}</div>
             </div>
           </div>

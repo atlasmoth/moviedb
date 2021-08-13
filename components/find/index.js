@@ -186,11 +186,10 @@ export default function Find() {
           }
           .tag {
             flex-grow: 1;
+            display : flex;
+            justify-content : center;
           }
-          .tag span {
-            text-align: center;
-          }
-        }
+          
       `}</style>
     </div>
   );

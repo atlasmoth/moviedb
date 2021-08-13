@@ -76,18 +76,22 @@ export default function Movie(props) {
         <div className="scrollDivs">
           {cast.map((m) => (
             <div className="card" key={m.id}>
-              <div className="poster">
-                <img
-                  src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${m.profile_path}`}
-                  alt="poster"
-                />
-              </div>
-              <div style={{ fontWeight: "bold", marginTop: "1.5rem" }}>
-                <p>{m.name}</p>
-              </div>
-              <div>
-                <p>{m.character}</p>
-              </div>
+              <Link href={`/media/person?id=${m.id}`}>
+                <a>
+                  <div className="poster">
+                    <img
+                      src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${m.profile_path}`}
+                      alt="poster"
+                    />
+                  </div>
+                  <div style={{ fontWeight: "bold", marginTop: "1.5rem" }}>
+                    <p>{m.name}</p>
+                  </div>
+                  <div>
+                    <p>{m.character}</p>
+                  </div>
+                </a>
+              </Link>
             </div>
           ))}
         </div>
