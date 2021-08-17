@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 export default function Search() {
   const [items, setItems] = useState([]);
   const [query, setQuery] = useState("");
-  const router = useRouter();
+
   useEffect(() => {
     if (query.trim().length === 0) setItems([]);
 
